@@ -6,28 +6,31 @@ chatbotを作成するにあたり、questionとanswerのペアになってい�
 ![model](https://github.com/Jumpei-Fujita/chatbot_normalAttention/blob/main/example.png)
 ### 前処理
 大文字の削除、短縮系や特殊文字等の排除を行った。
-
+また、全て同じ長さに揃えるため、paddingなどの処理を行った。
 ## モデル構築
 以下のようにSeq2SeqモデルにAttentionを追加した。<br>
 ![model](https://github.com/Jumpei-Fujita/chatbot_normalAttention/blob/main/chatbotNormalAttn.png)<br>
-
+また、Encoder, Decoder, Attentionは以下のような数式で表される。<br>
+![calc1](https://github.com/Jumpei-Fujita/chatbot_normalAttention/blob/main/calc1.png)<br>
+![calc2](https://github.com/Jumpei-Fujita/chatbot_normalAttention/blob/main/calc2.png)<br>
+Encoderで入力から特微量を抽出し、Decoderでは出力単語の回数だけ処理を行う。Attention機構ではEncoderで得た特微量、Decoderの内部表現を用いてattention weightを作成し、入力のどの部分に注目を与えるべきかを学習する。
 
 ## 学習
-VAEはEncoderによって平均と分散が出力され、それらに従う正規分布に従う乱数を生成する。その平均と分散を以下のような誤差関数により学習していく。
-![loss](https://github.com/Jumpei-Fujita/mixing_music_by_VAE/blob/master/vaeloss.png)<br>
+Decoderの出力の単語生成確率ベクトルをlogSoftmax関数により変形し、NLLLossを最小化するようにパラメータθを調整する。
 最適化手法はAdamを用いた。
-以下は学習の様子である。<br>
-![model](https://github.com/Jumpei-Fujita/mixing_music_by_VAE/blob/master/graph.png)
+以下は学習の様子である。過学習になってしまっている。<br>
+![model](https://github.com/Jumpei-Fujita/chatbot_normalAttention/blob/main/normalDialogLoss.png)
 
-## 結果
-歌うたいのバラッドの正規分布に従う乱数、渡月橋の正規分布に従う乱数をそれぞれ半分ずつ足した時の結果を以下に示す。<br>
-![model](https://github.com/Jumpei-Fujita/mixing_music_by_VAE/blob/master/heat50.png)<br>
+## 結果＋Attention可視化
+Attentionを可視化したものを以下に示す<br>
+![attention](https://github.com/Jumpei-Fujita/chatbot_normalAttention/blob/main/normalDialogAttn3500.png)<br>
+![attention](https://github.com/Jumpei-Fujita/chatbot_normalAttention/blob/main/normalDialogAttn2777.png)<br>
+stepごとの注目度合いが変わっておらず、繰り返しの原因や、全て同一の返答の原因になってしまっている。
 
 
 ## コードの実行手順
-multi_VAE.ipynbを訓練部分まで順に実行していく。<br>
-その後２曲をミックスさせた音楽を生成する場合はtest関数を実行する。<br>
-ここで、test関数の引数となるalphaは２曲の割合であり、0 ~ 1である。<br>
-alphaが高ければ高いほど渡月橋に近い曲になる。
+上から順番に実行していけば良い。なおデータセットはしかるべきところに保存しておく必要がある。
 
+## 最後に
+何かアドバイス等ありましたらコメントいただけると幸いです。
 
