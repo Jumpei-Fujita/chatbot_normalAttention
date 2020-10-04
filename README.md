@@ -2,16 +2,15 @@
 
 ## データセットの作成
 chatbotを作成するにあたり、questionとanswerのペアになっているデータセットを以下のサイト（kaggle）からダウンロードし用いた。
-データセットのQandAの例は以下のとおりである。
-
+データセットのQandAの例は以下のとおりである。<br>
+![model](https://github.com/Jumpei-Fujita/chatbot_normalAttention/blob/main/example.png)
 ### 前処理
 大文字の削除、短縮系や特殊文字等の排除を行った。
 
 ## モデル構築
-以下のようなSeq2SeqモデルにAttentionを追加した。
-![model]()<br>
-このVAEを128個構築し、それぞれにピッチを割り当てて学習を進めた。以下がそのイメージである。<br>
-![model](https://github.com/Jumpei-Fujita/mixing_music_by_VAE/blob/master/multi-VAE.png)<br>
+以下のようにSeq2SeqモデルにAttentionを追加した。<br>
+![model](https://github.com/Jumpei-Fujita/chatbot_normalAttention/blob/main/chatbotNormalAttn.png)<br>
+
 
 ## 学習
 VAEはEncoderによって平均と分散が出力され、それらに従う正規分布に従う乱数を生成する。その平均と分散を以下のような誤差関数により学習していく。
