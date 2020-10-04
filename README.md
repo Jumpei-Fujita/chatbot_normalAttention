@@ -23,7 +23,7 @@ Decoderの出力の単語生成確率ベクトルをlogSoftmax関数により変
 
 ## 結果＋Attention可視化
 Attentionを可視化したものを以下に示す<br>
-![attention](https://github.com/Jumpei-Fujita/chatbot_normalAttention/blob/main/normalDialogAttn3500.png)<br>
+![attention](https://github.com/Jumpei-Fujita/chatbot_normalAttention/blob/main/normalDialogAttn3500.png)
 ![attention](https://github.com/Jumpei-Fujita/chatbot_normalAttention/blob/main/normalDialogAttn2777.png)<br>
 stepごとの注目度合いが変わっておらず、繰り返しの原因や、全て同一の返答の原因になってしまっている。
 
